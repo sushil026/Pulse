@@ -1,159 +1,116 @@
-# Turborepo starter
+# Pulse
 
-This Turborepo starter is maintained by the Turborepo core team.
+**Real-time notification workflow engine — SaaS platform**
 
-## Using this example
+Pulse lets product teams define, deliver, and observe notifications across any channel without rebuilding the plumbing every time. You model a notification as a workflow (stateful, scheduled, broadcast, etc.), call the API once, and Pulse handles routing, persistence, retries, and real-time push to your end users.
 
-Run the following command:
+---
 
-```sh
-npx create-turbo@latest
+## What is Pulse?
+
+Pulse is a multi-tenant SaaS platform that sits between your backend services and your users. It exposes a simple HTTP/WebSocket API so any service can fire a notification in a single call, while Pulse internally runs a workflow engine that:
+
+- persists notification state with full audit history
+- routes to one or more delivery channels (WebSocket, push, email, SMS, webhook)
+- re-delivers on failure with configurable retry policies
+- broadcasts to arbitrarily large subscriber sets without caller involvement
+- executes scheduled and recurring notification jobs
+
+Tenants onboard via the dashboard, define their notification schemas and delivery rules, embed the JS/mobile SDK (or call the REST API directly), and Pulse does the rest.
+
+---
+
+## Notification Types
+
+| Type | Description |
+|------|-------------|
+| **Stateful** | Notifications that move through a defined lifecycle (e.g. `created → delivered → read → archived`). State transitions are persisted and queryable. Ideal for order updates, support tickets, or any event the user needs to act on. |
+| **Fire and Forget** | One-shot notifications with no state tracking after delivery. Low overhead. Ideal for transient alerts, log tails, or any event where only the latest value matters. |
+| **Append** | An ordered, append-only stream of notifications attached to a resource (e.g. activity feed, audit log, comment thread). Consumers can paginate history or subscribe to the tail in real time. |
+| **Scheduled** | Notifications triggered at a future timestamp or on a cron expression. The workflow engine persists the schedule, handles clock skew, and fires delivery at the right moment even across restarts. |
+| **Broadcast** | Fan-out notifications sent to all subscribers matching a topic, segment, or tag — potentially millions of recipients. Pulse shards the fan-out internally so the caller makes one API call regardless of audience size. |
+
+---
+
+## Monorepo Structure
+
+```
+pulse/
+├── apps/
+│   ├── dashboard/          # Tenant SaaS dashboard (Next.js, port 3000)
+│   ├── demo-rapido/        # Demo: ride-hailing notification flows (Next.js, port 3001)
+│   └── demo-amazon/        # Demo: e-commerce order notification flows (Next.js)
+│
+├── packages/
+│   ├── ui/                 # Shared React component library (@repo/ui)
+│   ├── eslint-config/      # Shared ESLint configs (@repo/eslint-config)
+│   └── typescript-config/  # Shared tsconfig presets (@repo/typescript-config)
+│
+├── services/               # Backend microservices (Java / Spring Boot)
+│   ├── pulse-api/          # Public-facing REST + WebSocket API gateway
+│   ├── workflow-engine/    # Notification workflow orchestration
+│   ├── delivery-service/   # Multi-channel delivery (WebSocket, push, email, SMS)
+│   ├── relay-service/      # Broadcast fan-out and topic relay
+│   └── websocket-gateway/  # Persistent WebSocket connection server
+│
+├── infrastructure/
+│   ├── docker/             # Docker Compose for local development
+│   ├── kafka/              # Kafka topic definitions and configs
+│   └── postgres/           # Database migrations and schema
+│
+├── sdk/
+│   └── java/               # Java client SDK for Pulse API
+│
+├── docs/                   # Architecture docs and API references
+├── turbo.json              # Turborepo pipeline config
+└── package.json            # Root workspace manifest
 ```
 
-## What's inside?
+---
 
-This Turborepo includes the following packages/apps:
+## Tech Stack
 
-### Apps and Packages
+| Layer | Technology |
+|-------|-----------|
+| Frontend apps | Next.js 16, React 19, TypeScript |
+| Backend services | Java 21, Spring Boot 3, Spring WebFlux |
+| Message broker | Apache Kafka |
+| Primary database | PostgreSQL 16 |
+| Cache / presence | Redis 7 |
+| Real-time push | WebSocket (STOMP over WS) |
+| Monorepo tooling | Turborepo, npm workspaces |
+| Containerisation | Docker, Docker Compose |
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+---
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Quick Start
 
-### Utilities
+> Prerequisites: Node >= 18, Java 21, Docker
 
-This Turborepo has some additional tools already setup for you:
+```bash
+# 1. Clone and install JS dependencies
+git clone https://github.com/sushil026/pulse.git
+cd pulse
+npm install
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+# 2. Start backing services (Kafka, PostgreSQL, Redis)
+docker compose -f infrastructure/docker/docker-compose.yml up -d
 
-### Build
+# 3. Run database migrations
+# (migration tooling TBD — see infrastructure/postgres/)
 
-To build all apps and packages, run the following command:
+# 4. Start backend services
+# (service startup scripts TBD — see services/)
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo build
+# 5. Start the dashboard
+npm run dev --filter=dashboard
+# Open http://localhost:3000
 ```
 
-Without global `turbo`, use your package manager:
+> Full local setup guide coming soon in `docs/`.
 
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
-```
+---
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## Contributing
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo build --filter=docs
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+See `AGENTS.md` for architectural context, coding conventions, and build order guidance intended for both human developers and AI coding agents.
