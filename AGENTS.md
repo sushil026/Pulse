@@ -90,7 +90,7 @@ pulse/
 
 ## Services
 
-All backend services are **Java 21 / Spring Boot 3** microservices. They communicate with each other via Kafka (async) and REST (sync, internal only). All services are currently scaffolded as empty directories.
+All backend services are **Java 17 / Spring Boot 3** microservices. They communicate with each other via Kafka (async) and REST (sync, internal only). All services are currently scaffolded as empty directories.
 
 ### `services/pulse-api`
 - **Role:** Public-facing API gateway — the single entry point for all tenant and end-user traffic
@@ -292,7 +292,7 @@ When building out this project from scratch, follow this dependency order:
 ## Coding Conventions
 
 ### Java / Spring Boot (services)
-- Java 21 — use records for DTOs, sealed interfaces for sum types, pattern matching where natural
+- Java 17 — use records for DTOs, sealed interfaces for sum types, pattern matching where natural
 - Spring WebFlux (reactive) preferred over Spring MVC for services that handle high fan-out (websocket-gateway, relay-service); Spring MVC acceptable for pulse-api and workflow-engine
 - Package structure per service: `api` (controllers/handlers), `domain` (entities, value objects), `application` (use cases / services), `infrastructure` (Kafka, persistence, Redis adapters)
 - Database access via Spring Data JPA or jOOQ — no raw JDBC except for bulk operations
