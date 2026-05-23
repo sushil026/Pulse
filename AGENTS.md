@@ -21,10 +21,7 @@ Pulse is a **multi-tenant, real-time notification workflow engine** delivered as
 
 ```
 pulse/
-├── apps/
-│   ├── dashboard/          # Tenant SaaS dashboard
-│   ├── demo-rapido/        # Demo app: ride-hailing notifications
-│   └── demo-amazon/        # Demo app: e-commerce order notifications
+├── apps/│   └── dashboard/          # Tenant SaaS dashboard
 │
 ├── packages/
 │   ├── ui/                 # Shared React component library
@@ -53,21 +50,13 @@ pulse/
 
 ## Apps
 
+> **Note:** Demo apps (demo-rapido, demo-amazon) are out of scope and will be added later when explicitly instructed. Do not create or modify demo app files unless specifically asked.
+
 ### `apps/dashboard`
 - **Tech:** Next.js 16, React 19, TypeScript
 - **Port:** 3000
 - **Purpose:** The main tenant-facing SaaS dashboard. Tenants log in here to manage API keys, define notification schemas, configure delivery channels, set up routing rules, and observe notification analytics and audit logs.
 - **Depends on:** `@repo/ui`, `@repo/eslint-config`, `@repo/typescript-config`
-
-### `apps/demo-rapido`
-- **Tech:** Next.js 16, React 19, TypeScript
-- **Port:** 3001
-- **Purpose:** A demo application simulating a ride-hailing platform (Rapido-like). Demonstrates Pulse notification flows for ride lifecycle events: booking confirmed, driver assigned, driver arriving, ride started, ride completed, payment processed.
-- **Depends on:** `@repo/ui`, `@repo/eslint-config`, `@repo/typescript-config`
-
-### `apps/demo-amazon`
-- **Tech:** Next.js 16, React 19, TypeScript (scaffolded, not yet populated)
-- **Purpose:** A demo application simulating an e-commerce platform (Amazon-like). Will demonstrate Pulse notification flows for order lifecycle: order placed, payment confirmed, packed, shipped, out for delivery, delivered, return initiated.
 
 ---
 
@@ -281,10 +270,7 @@ When building out this project from scratch, follow this dependency order:
    - Tenant onboarding, API key management, notification schema editor
    - Real-time notification log viewer
 
-9. **Demo apps** (`apps/demo-rapido`, `apps/demo-amazon`)
-   - Built last as validation that the full stack works end-to-end
-
-10. **`sdk/java`**
+9. **`sdk/java`**
     - Java client SDK wrapping the pulse-api REST + WebSocket API
 
 ---
@@ -338,7 +324,6 @@ When building out this project from scratch, follow this dependency order:
 | Service | URL |
 |---------|-----|
 | Dashboard | http://localhost:3000 |
-| Demo Rapido | http://localhost:3001 |
 | pulse-api | http://localhost:8080 |
 | workflow-engine | http://localhost:8081 |
 | delivery-service | http://localhost:8082 |
