@@ -13,6 +13,65 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.8945384366105782" />
+      <entry key="MS500" value="3.889902486166421" />
+      <entry key="S2" value="5.684772040607465" />
+      <entry key="S5" value="6.396524269343599" />
+      <entry key="S10" value="6.6832514255722435" />
+      <entry key="S30" value="6.890856284149261" />
+      <entry key="S60" value="6.944968149332578" />
+      <entry key="M2" value="6.9723679280554265" />
+      <entry key="M5" value="6.988919147663459" />
+      <entry key="M10" value="6.994454890816577" />
+      <entry key="M15" value="6.996302218952135" />
+      <entry key="M30" value="6.99815058844919" />
+      <entry key="H1" value="6.999075163924591" />
+      <entry key="H2" value="6.999537549381881" />
+      <entry key="H4" value="6.999768766545161" />
+      <entry key="D1" value="6.999961459959444" />
+      <entry key="W1" value="6.999994494252212" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="0.0" />
+      <entry key="S2" value="0.0" />
+      <entry key="S5" value="0.0" />
+      <entry key="S10" value="0.0" />
+      <entry key="S30" value="0.0" />
+      <entry key="S60" value="0.0" />
+      <entry key="M2" value="0.0" />
+      <entry key="M5" value="0.0" />
+      <entry key="M10" value="0.0" />
+      <entry key="M15" value="0.0" />
+      <entry key="M30" value="0.0" />
+      <entry key="H1" value="0.0" />
+      <entry key="H2" value="0.0" />
+      <entry key="H4" value="0.0" />
+      <entry key="D1" value="0.0" />
+      <entry key="W1" value="0.0" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.8587041311638788" />
+      <entry key="MS500" value="3.8688059990311015" />
+      <entry key="S2" value="5.669617615348013" />
+      <entry key="S5" value="6.388406264600117" />
+      <entry key="S10" value="6.678755579194305" />
+      <entry key="S30" value="6.889250012763491" />
+      <entry key="S60" value="6.944150842242422" />
+      <entry key="M2" value="6.971955675960754" />
+      <entry key="M5" value="6.988753375952473" />
+      <entry key="M10" value="6.994371859209941" />
+      <entry key="M15" value="6.996246832113569" />
+      <entry key="M30" value="6.998122878801572" />
+      <entry key="H1" value="6.999061305041585" />
+      <entry key="H2" value="6.9995306189253155" />
+      <entry key="H4" value="6.999765301063079" />
+      <entry key="D1" value="6.999960882343843" />
+      <entry key="W1" value="6.999994411734834" />
+    </decayedShown>
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5,
   &quot;fromUser&quot;: false
@@ -62,6 +121,17 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
